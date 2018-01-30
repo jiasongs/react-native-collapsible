@@ -17,7 +17,13 @@ import {
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
 // import List from './List';
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
-
+// global.console = {
+//   info: () => { },
+//   log: () => { },
+//   warn: () => { },
+//   debug: () => { },
+//   error: () => { }
+// };
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -46,14 +52,14 @@ export default class App extends Component {
     const toValue = this.state.translateY.interpolate({
       inputRange: [0, 1],
       outputRange: [0, -64],
-      extrapolateLeft: 'clamp',
+      extrapolate: 'clamp',
     })
     console.log(toValue)
     Animated.timing(this.state.timingTranslateY, {
       toValue: toValue,
-      duration: 25,
+      duration: 100,
       easing: Easing.linear,
-      // useNativeDriver: true
+      // useNativeDriver: true,
     }).start();
   }
   componentDidUpdate() {
@@ -82,7 +88,22 @@ export default class App extends Component {
       this.setState({ isRefresh: false })
     }, 2000);
   }
+  // _onScrollEndDrag = () => {
+  //   console.log('_onScrollEndDrag')
+  //   this._scrollEndTimer = setTimeout(this._onMomentumScrollEnd, 0);
+  // };
 
+  // _onMomentumScrollBegin = () => {
+  //   console.log('_onMomentumScrollBegin')
+  //   clearTimeout(this._scrollEndTimer);
+  // };
+
+  _onMomentumScrollEnd = () => {
+
+  };
+  _onScroll(info) {
+    console.log(info.nativeEvent.contentOffset.y)
+  }
   _renderTab(par) {
     let data = []
     for (let index = 0; index < 100; index++) {
@@ -95,15 +116,20 @@ export default class App extends Component {
     return (
       // <List onSc={this._onSc.bind(this)} />
       <AnimatedFlatList
+        style={{ paddingTop: 0, }}
         ref={flatList => this._flatList = flatList}
-        scrollEventThrottle={1}
+        scrollEventThrottle={100}
         refreshing={this.state.isRefresh}
         onRefresh={this._onRefresh.bind(this)}
         data={data}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          //{ useNativeDriver: true }
+          { listener: this._onScroll.bind(this) },
+          // { useNativeDriver: true },
         )}
+        onMomentumScrollBegin={this._onMomentumScrollBegin}
+        onMomentumScrollEnd={this._onMomentumScrollEnd}
+        onScrollEndDrag={this._onScrollEndDrag}
         keyExtractor={(item, index) => item}
         renderItem={this._renderItem.bind(this)}
       />
@@ -124,6 +150,10 @@ export default class App extends Component {
       <View style={styles.container}>
         <Animated.View
           style={{
+            // position: 'absolute',
+            // top: 0,
+            // left: 0,
+            // right: 0,
             height: 64, backgroundColor: '#304758', justifyContent: 'center', alignItems: 'center',
             transform: [{ translateY }],
           }}>
@@ -131,11 +161,15 @@ export default class App extends Component {
         </Animated.View>
         <Animated.View
           style={{
+            // position: 'absolute',
+            // top: 0,
+            // left: 0,
+            // right: 0,
             flex: 1,
             transform: [{ translateY }],
           }}>
           <ScrollableTabView
-            style={{}}
+            style={{ paddingTop: 0, }}
             initialPage={0}
             renderTabBar={() => <DefaultTabBar />}
           >
@@ -150,6 +184,7 @@ export default class App extends Component {
             </View>
           </ScrollableTabView>
         </Animated.View>
+
       </View>
     );
   }
