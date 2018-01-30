@@ -15,8 +15,8 @@ import {
   Easing
 } from 'react-native';
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
-// import List from './List';
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+import ListComponent from './ListComponent'
+const AnimatedListComponent = Animated.createAnimatedComponent(ListComponent);
 // global.console = {
 //   info: () => { },
 //   log: () => { },
@@ -105,33 +105,22 @@ export default class App extends Component {
     console.log(info.nativeEvent.contentOffset.y)
   }
   _renderTab(par) {
-    let data = []
-    for (let index = 0; index < 100; index++) {
-      data.push(index)
-    }
+    // let data = []
+    // for (let index = 0; index < 100; index++) {
+    //   data.push(index)
+    // }
     let scrollY = this.state.scrollY
     if (par == 2) {
       scrollY = this.state.scrollY2
     }
     return (
       // <List onSc={this._onSc.bind(this)} />
-      <AnimatedFlatList
-        style={{ paddingTop: 0, }}
-        ref={flatList => this._flatList = flatList}
-        scrollEventThrottle={100}
-        refreshing={this.state.isRefresh}
-        onRefresh={this._onRefresh.bind(this)}
-        data={data}
+      <AnimatedListComponent
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { listener: this._onScroll.bind(this) },
           // { useNativeDriver: true },
         )}
-        onMomentumScrollBegin={this._onMomentumScrollBegin}
-        onMomentumScrollEnd={this._onMomentumScrollEnd}
-        onScrollEndDrag={this._onScrollEndDrag}
-        keyExtractor={(item, index) => item}
-        renderItem={this._renderItem.bind(this)}
       />
     )
   }
