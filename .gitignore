@@ -1,8 +1,0 @@
-node_modules/
-*.vscode
-dist/
-.gitignore
-data.js
-main.js
-te.js
-List.js
