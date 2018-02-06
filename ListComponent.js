@@ -14,12 +14,9 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 class ListComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { isRefresh: false }
-  }
-  _onRefresh() {
 
   }
-  _onScroll(info) {
+  _onScroll = (info) => {
     // 回调
     if (this.props.onScroll) {
       this.props.onScroll(info)
@@ -44,13 +41,8 @@ class ListComponent extends Component {
           style={{ paddingTop: 0, }}
           ref={flatList => this._flatList = flatList}
           scrollEventThrottle={1}
-          refreshing={this.state.isRefresh}
-          onRefresh={this._onRefresh.bind(this)}
           data={data}
-          onScroll={this._onScroll.bind(this)}
-          // onMomentumScrollBegin={this._onMomentumScrollBegin}
-          // onMomentumScrollEnd={this._onMomentumScrollEnd}
-          // onScrollEndDrag={this._onScrollEndDrag}
+          onScroll={this._onScroll}
           keyExtractor={(item, index) => item}
           renderItem={this._renderItem.bind(this)}
         />

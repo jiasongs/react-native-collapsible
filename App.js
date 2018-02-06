@@ -17,13 +17,6 @@ import {
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
 import ListComponent from './ListComponent'
 const AnimatedListComponent = Animated.createAnimatedComponent(ListComponent);
-// global.console = {
-//   info: () => { },
-//   log: () => { },
-//   warn: () => { },
-//   debug: () => { },
-//   error: () => { }
-// };
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -57,69 +50,32 @@ export default class App extends Component {
     console.log(toValue)
     Animated.timing(this.state.timingTranslateY, {
       toValue: toValue,
-      duration: 100,
+      duration: 25,
       easing: Easing.linear,
-      // useNativeDriver: true,
     }).start();
   }
-  componentDidUpdate() {
 
-  }
-  componentWillUnmount() {
-
-  }
-  _deleteAnimatedAttachNativeEvent() {
-
-  }
-  _updateAnimatedAttachNativeEvent() {
-    // this.state.timingTranslateY.addListener((info) => {
-    //   console.log(info)
-    //   if (info.value > this.lastOffsetY) {
-    //     // 想上滑
-    //   } else if (info.value < this.lastOffsetY) {
-    //     // 向下滑
-    //   }
-    //   this.lastOffsetY = info.value;
-    // })
-  }
   _onRefresh() {
     this.setState({ isRefresh: true })
     setTimeout(() => {
       this.setState({ isRefresh: false })
     }, 2000);
   }
-  // _onScrollEndDrag = () => {
-  //   console.log('_onScrollEndDrag')
-  //   this._scrollEndTimer = setTimeout(this._onMomentumScrollEnd, 0);
-  // };
 
-  // _onMomentumScrollBegin = () => {
-  //   console.log('_onMomentumScrollBegin')
-  //   clearTimeout(this._scrollEndTimer);
-  // };
 
-  _onMomentumScrollEnd = () => {
-
-  };
-  _onScroll(info) {
-    console.log(info.nativeEvent.contentOffset.y)
+  _onScroll = (info) => {
+    // console.log(info.nativeEvent.contentOffset.y)
   }
-  _renderTab(par) {
-    // let data = []
-    // for (let index = 0; index < 100; index++) {
-    //   data.push(index)
-    // }
+  _renderTab = (par) => {
     let scrollY = this.state.scrollY
     if (par == 2) {
       scrollY = this.state.scrollY2
     }
     return (
-      // <List onSc={this._onSc.bind(this)} />
       <AnimatedListComponent
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { listener: this._onScroll.bind(this) },
-          // { useNativeDriver: true },
+          { listener: this._onScroll },
         )}
       />
     )
@@ -134,15 +90,10 @@ export default class App extends Component {
   }
   render() {
     const translateY = this.state.timingTranslateY
-    console.log('z')
     return (
       <View style={styles.container}>
         <Animated.View
           style={{
-            // position: 'absolute',
-            // top: 0,
-            // left: 0,
-            // right: 0,
             height: 64, backgroundColor: '#304758', justifyContent: 'center', alignItems: 'center',
             transform: [{ translateY }],
           }}>
@@ -150,10 +101,6 @@ export default class App extends Component {
         </Animated.View>
         <Animated.View
           style={{
-            // position: 'absolute',
-            // top: 0,
-            // left: 0,
-            // right: 0,
             flex: 1,
             transform: [{ translateY }],
           }}>
