@@ -12,11 +12,11 @@
 
 | iOS | Android |
 | --- | ------- |
-| ![](./react-native-collapsible.gif) | 暂无 |
+| ![](./collapsible.gif) | 暂无 |
 
 # 实现
 
-具体请下载看App.js和ListComponent.js
+具体请Clone查看App.js和ListComponent.js
 
 # 版本
 
